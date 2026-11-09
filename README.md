@@ -156,11 +156,6 @@ Los datos viven en el volumen `hapi-data`. Detener o reiniciar el servidor **no*
 | El contenedor se detiene solo | Memoria insuficiente | Docker Desktop → Settings → Resources: asigna al menos 4 GB |
 | Postman: `Could not get response` | `baseUrl` mal escrita o entorno no seleccionado | Revisa que el entorno *FHIR local* esté activo |
 
-## Para el docente
-
-- Probar el `docker compose up -d` completo en un equipo limpio antes de la sesión.
-- La imagen está fijada en `hapiproject/hapi:v8.10.0-1`. Revisar si hay una versión más reciente en las [releases del starter](https://github.com/hapifhir/hapi-fhir-jpaserver-starter/releases) y actualizar el tag si corresponde.
-
 ## Referencias
 
 - Benson T, Grieve G. *Principles of Health Interoperability: FHIR, HL7 and SNOMED CT*. 4.ª ed. Springer; 2021, caps. 5–7 y 10.
