@@ -1,0 +1,35 @@
+# ------------------------------------------------------------------
+# fhir-workshop-deploy · Servidor HAPI FHIR R4 para el curso
+# Ecosistemas Digitales Interoperables en Salud · Unidad 3
+#
+# Levantar:   docker compose up -d
+# Detener:    docker compose down          (los datos se conservan)
+# Borrar todo: docker compose down -v      (elimina el volumen y los datos)
+# ------------------------------------------------------------------
+
+services:
+  fhir:
+    # Versión fijada a propósito: todo el curso trabaja con la misma imagen.
+    # Antes de la clase, revisar si hay una versión más reciente en
+    # https://github.com/hapifhir/hapi-fhir-jpaserver-starter/releases
+    image: hapiproject/hapi:v8.10.0-1
+    container_name: hapi-fhir-r4
+    restart: unless-stopped
+    # La imagen corre por defecto con un usuario sin privilegios; se usa root
+    # solo para que pueda escribir en el volumen local sin problemas de permisos.
+    user: "0:0"
+    ports:
+      - "8080:8080"
+    environment:
+      # Versión de FHIR del servidor
+      HAPI_FHIR_FHIR_VERSION: R4
+      # Base de datos H2 guardada en el volumen (persiste entre reinicios)
+      SPRING_DATASOURCE_URL: "jdbc:h2:file:/data/hapi/h2"
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.h2.Driver
+    volumes:
+      - hapi-data:/data/hapi
+
+volumes:
+  hapi-data:

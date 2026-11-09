@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "FHIR Workshop / Sesión 7 / Entorno",
+    "description": "Colección base del curso Ecosistemas Digitales Interoperables en Salud. En S7 solo verificamos el servidor; desde S8 se agregan requests para crear y consultar recursos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01: CapabilityStatement (local)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Accept", "value": "application/fhir+json" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/metadata",
+          "host": ["{{baseUrl}}"],
+          "path": ["metadata"]
+        },
+        "description": "Interacción capabilities a nivel de sistema. Debe responder 200 con resourceType = CapabilityStatement y fhirVersion = 4.0.1."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('Es un CapabilityStatement', () => pm.expect(body.resourceType).to.eql('CapabilityStatement'));",
+              "pm.test('Servidor FHIR R4 (4.0.1)', () => pm.expect(body.fhirVersion).to.eql('4.0.1'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02: CapabilityStatement (local, XML)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Accept", "value": "application/fhir+xml" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/metadata",
+          "host": ["{{baseUrl}}"],
+          "path": ["metadata"]
+        },
+        "description": "Misma interacción, pidiendo XML mediante la cabecera Accept. Compara con la respuesta JSON."
+      }
+    },
+    {
+      "name": "03: CapabilityStatement (servidor público)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Accept", "value": "application/fhir+json" }
+        ],
+        "url": {
+          "raw": "{{publicUrl}}/metadata",
+          "host": ["{{publicUrl}}"],
+          "path": ["metadata"]
+        },
+        "description": "Servidor público de pruebas HAPI (R4). Compara su respuesta con la de tu servidor local y anota 2 diferencias."
+      }
+    }
+  ]
+}
